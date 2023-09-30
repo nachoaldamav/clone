@@ -1,12 +1,13 @@
-import * as esbuild from 'esbuild'
+import * as esbuild from 'esbuild';
+import { platform } from 'process';
 
 esbuild.build({
   entryPoints: ['src/clone.ts'],
-    bundle: true,
-    outfile: 'dist/bundle.js',
-    platform: 'node',
-    target: 'node14',
-    loader: {
-        '.node': 'copy',
-    },
-})
+  bundle: true,
+  outfile: 'dist/bundle.js',
+  platform: 'node',
+  target: 'node14',
+  loader: {
+    '.node': 'copy',
+  },
+});

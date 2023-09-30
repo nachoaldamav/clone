@@ -8,25 +8,26 @@
   },
   "scripts": {
     "bundle": "tsx bundle.ts",
-    "build:win-x64": "pkg dist/bundle.js --target node18-win-x64 --out-path win-x64",
-    "build:win-arm64": "pkg dist/bundle.js --target node18-win-arm64 --out-path win-arm64",
-    "build:linux-x64": "pkg dist/bundle.js --target node18-linux-x64 --out-path linux-x64",
-    "build:linux-arm64": "pkg dist/bundle.js --target node18-linux-arm64 --out-path linux-arm64",
-    "build:mac-x64": "pkg dist/bundle.js --target node18-macos-x64 --out-path mac-x64",
-    "build:mac-arm64": "pkg dist/bundle.js --target node18-macos-arm64 --out-path mac-arm64"
+    "build:win-x64": "pkg dist/bundle.js --target node18-win-x64 --out-path win-x64 -d",
+    "build:win-arm64": "pkg dist/bundle.js --target node18-win-arm64 --out-path win-arm64 -d",
+    "build:linux-x64": "pkg dist/bundle.js --target node18-linux-x64 --out-path linux-x64 -d",
+    "build:linux-arm64": "pkg dist/bundle.js --target node18-linux-arm64 --out-path linux-arm64 -d",
+    "build:mac-x64": "pkg dist/bundle.js --target node18-macos-x64 --out-path mac-x64 -d",
+    "build:mac-arm64": "pkg dist/bundle.js --target node18-macos-arm64 --out-path mac-arm64 -d"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "rclonefile": "^1.0.1"
-  },
   "devDependencies": {
     "@types/node": "^20.8.0",
     "esbuild": "^0.19.4",
     "pkg": "^5.8.1",
     "tsx": "^3.13.0",
     "typescript": "^5.2.2"
+  },
+  "optionalDependencies": {
+    "rclonefile-darwin-arm64": "1.0.1",
+    "rclonefile-darwin-x64": "1.0.1"
   },
   "pkg": {
     "assets": [
