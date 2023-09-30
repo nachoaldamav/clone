@@ -31,15 +31,14 @@ jobs:
     - name: Run bundle
       run: pnpm run bundle
 
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
+    - name: Create or Update GitHub Release
+      uses: ncipollo/release-action@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-        allowUpdates: true
+        allowUpdates: true # Set this to true to allow updates
+        artifacts: "./${{ matrix.os }}-${{ matrix.arch }}/bundle" # You can specify artifact paths here
+        token: ${{ secrets.GITHUB_TOKEN }}
+        name: Release ${{ github.ref }}
+        tag: ${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
