@@ -68,9 +68,10 @@ jobs:
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       with:
-        upload_url: ${{ needs.prepare-release.outputs.upload_url }}
+        upload_url: ${{ env.UPLOAD_URL }}
         asset_path: ./${{ env.BUILD_TARGET }}-${{ matrix.arch }}/bundle
-        asset_name: clone-$BUILD_TARGET-${{ matrix.arch }}
+        asset_name: clone-${{ env.BUILD_TARGET }}-${{ matrix.arch }}
         asset_content_type: application/octet-stream
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+    
