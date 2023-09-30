@@ -1,6 +1,6 @@
 {
   "pkg": {
-    "assets": ["**/*darwin-arm64*.node"],
+    "assets": ["**/*darwin-arm64*.node", "dist/**/*.js"],
     "targets": ["node18-macos-arm64"],
     "outputPath": "./mac-arm64"
   }
