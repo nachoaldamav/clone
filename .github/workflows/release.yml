@@ -25,7 +25,7 @@ jobs:
     - name: Get Upload URL
       id: get_upload_url
       run: |
-        UPLOAD_URL=$(gh release view ${{ github.ref }} --json uploadUrl -q '.uploadUrl')
+        UPLOAD_URL=$(gh release view $(basename ${{ github.ref }}) --json uploadUrl -q '.uploadUrl')
         echo "upload_url: $UPLOAD_URL"
         echo "UPLOAD_URL=$UPLOAD_URL" >> $GITHUB_ENV
         echo "upload_url=$UPLOAD_URL" >> $GITHUB_ENV
