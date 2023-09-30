@@ -53,6 +53,8 @@ jobs:
       run: |
         UPLOAD_URL=$(gh release view ${{ github.ref }} --json upload_url -q '.upload_url' || echo "")
         echo "UPLOAD_URL=${UPLOAD_URL}" >> $GITHUB_ENV
+      env:
+        GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
@@ -62,4 +64,4 @@ jobs:
         asset_name: clone-$BUILD_TARGET-${{ matrix.arch }}
         asset_content_type: application/octet-stream
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
