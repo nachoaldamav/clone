@@ -17,19 +17,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install GitHub CLI
-      run: |
-        if [[ "${{ runner.os }}" == "Linux" ]]; then
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt update
-          sudo apt install gh
-        elif [[ "${{ runner.os }}" == "macOS" ]]; then
-          brew install gh
-        elif [[ "${{ runner.os }}" == "Windows" ]]; then
-          choco install gh
-        fi
-
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
