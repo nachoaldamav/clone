@@ -51,7 +51,7 @@ jobs:
       run: npm install -g pnpm
 
     - name: Install dependencies with pnpm
-      run: npm_config_target_arch=${{ matrix.arch }} npm_config_target_platform=${{ matrix.os }} pnpm install
+      run: pnpm install -f
 
     - name: Run bundle
       run: pnpm run bundle
