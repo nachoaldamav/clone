@@ -1,0 +1,56 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        arch: [x64, arm64]
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies with pnpm
+      run: npm_config_target_arch=${{ matrix.arch }} pnpm install
+
+    - name: Run bundle
+      run: pnpm run bundle
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Transform OS and Arch
+      run: echo "BUILD_TARGET=$(echo "${{ matrix.os }}" | sed 's/ubuntu-latest/linux/;s/windows-latest/win/;s/macos-latest/mac/')" >> $GITHUB_ENV
+
+    - name: Build for target OS and Arch
+      run: npm run build:$BUILD_TARGET-${{ matrix.arch }}
+
+    - name: Upload release asset
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./$BUILD_TARGET-${{ matrix.arch }}/bundle
+        asset_name: clone-$BUILD_TARGET-${{ matrix.arch }}
+        asset_content_type: application/octet-stream
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
