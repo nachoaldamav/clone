@@ -30,6 +30,8 @@ jobs:
         echo "UPLOAD_URL=$UPLOAD_URL" >> $GITHUB_ENV
         echo "upload_url=$UPLOAD_URL" >> $GITHUB_ENV
         echo "::set-output name=upload_url::$UPLOAD_URL"
+      env:
+        GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
   build-and-release:
     needs: prepare-release
