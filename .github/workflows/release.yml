@@ -69,7 +69,7 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ needs.prepare-release.outputs.upload_url }}
-        asset_path: ./$BUILD_TARGET-${{ matrix.arch }}/bundle
+        asset_path: ./${{ env.BUILD_TARGET }}-${{ matrix.arch }}/bundle
         asset_name: clone-$BUILD_TARGET-${{ matrix.arch }}
         asset_content_type: application/octet-stream
       env:
