@@ -9,6 +9,7 @@
   "scripts": {
     "bundle": "tsx bundle.ts",
     "build:win-x64": "pkg dist/bundle.js --target node18-win-x64 --out-path win-x64",
+    "build:win-arm64": "pkg dist/bundle.js --target node18-win-arm64 --out-path win-arm64",
     "build:linux-x64": "pkg dist/bundle.js --target node18-linux-x64 --out-path linux-x64",
     "build:linux-arm64": "pkg dist/bundle.js --target node18-linux-arm64 --out-path linux-arm64",
     "build:mac-x64": "pkg dist/bundle.js --target node18-macos-x64 --out-path mac-x64",
