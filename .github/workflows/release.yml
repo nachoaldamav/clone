@@ -37,9 +37,9 @@ jobs:
     needs: prepare-release
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [linux, win, mac]
         arch: [x64, arm64]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
@@ -54,23 +54,20 @@ jobs:
       run: npm install -g pnpm
 
     - name: Install dependencies with pnpm
-      run: npm_config_target_arch=${{ matrix.arch }} pnpm install
+      run: npm_config_target_arch=${{ matrix.arch }} npm_config_target_arch=${{ matrix.os }} pnpm install
 
     - name: Run bundle
       run: pnpm run bundle
 
-    - name: Transform OS and Arch
-      run: echo "BUILD_TARGET=$(echo "${{ matrix.os }}" | sed 's/ubuntu-latest/linux/;s/windows-latest/win/;s/macos-latest/mac/')" >> $GITHUB_ENV
-
     - name: Build for target OS and Arch
-      run: npm run build:$BUILD_TARGET-${{ matrix.arch }}
+      run: npm run build:${{ matrix.os }}-${{ matrix.arch }}
 
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ needs.prepare-release.outputs.upload_url }}
-        asset_path: ./${{ env.BUILD_TARGET }}-${{ matrix.arch }}/bundle
-        asset_name: clone-${{ env.BUILD_TARGET }}-${{ matrix.arch }}
+        asset_path: ./${{ matrix.os }}-${{ matrix.arch }}/bundle
+        asset_name: clone-${{ matrix.os }}-${{ matrix.arch }}
         asset_content_type: application/octet-stream
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
