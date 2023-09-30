@@ -51,7 +51,7 @@ jobs:
     - name: Get Release upload URL
       id: get_upload_url
       run: |
-        UPLOAD_URL=$(gh release view ${{ github.ref }} --json upload_url -q '.upload_url' || echo "")
+        UPLOAD_URL=$(gh release view refs/tags/v0.0.14 --json uploadUrl -q '.uploadUrl' || echo "")
         echo "UPLOAD_URL=${UPLOAD_URL}" >> $GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
