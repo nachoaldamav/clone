@@ -64,6 +64,8 @@ jobs:
         asset_path: ./linux-${{ matrix.arch }}/bundle
         asset_name: clone-linux-${{ matrix.arch }}
         asset_content_type: application/octet-stream
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
   build-and-release-macos:
     needs: prepare-release
@@ -99,6 +101,8 @@ jobs:
         asset_path: ./mac-${{ matrix.arch }}/bundle
         asset_name: clone-mac-${{ matrix.arch }}
         asset_content_type: application/octet-stream
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
 
   build-and-release-windows:
     needs: prepare-release
