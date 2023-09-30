@@ -30,21 +30,21 @@ jobs:
 
     - name: Run bundle
       run: pnpm run bundle
-        
+
     - name: Transform OS and Arch
       run: echo "BUILD_TARGET=$(echo "${{ matrix.os }}" | sed 's/ubuntu-latest/linux/;s/windows-latest/win/;s/macos-latest/mac/')" >> $GITHUB_ENV
 
     - name: Build for target OS and Arch
-      run: pnpm run build:$BUILD_TARGET-${{ matrix.arch }}
+      run: npm run build:$BUILD_TARGET-${{ matrix.arch }}
 
-    - name: Check if release exists and get upload URL
-      id: check_release
+    - name: Create or Update GitHub Release
       run: |
         set -e
         set -x
         echo "Checking if release exists..."
-        gh release view ${{ github.ref }} > /dev/null 2>&1 || EXISTS=$?
-        if [ "$EXISTS" == "0" ]; then
+        gh release view ${{ github.ref }} > /dev/null 2>&1
+        EXISTS=$?
+        if [ "$EXISTS" -eq 0 ]; then
           echo "Release exists. Fetching upload URL."
           UPLOAD_URL=$(gh release view ${{ github.ref }} --json uploadUrl -q '.uploadUrl') || exit 1
         else
@@ -56,10 +56,8 @@ jobs:
         echo "UPLOAD_URL=${UPLOAD_URL}" >> $GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-    
 
     - name: Upload release asset
-      if: env.UPLOAD_URL != ''
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ env.UPLOAD_URL }}
