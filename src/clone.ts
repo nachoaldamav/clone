@@ -1,7 +1,7 @@
 import { copyFileSync } from 'fs';
 import { constants } from 'fs/promises';
-import { platform } from 'os';
-// import { cloneFileSync } from './rclonefile';
+
+const os = process.platform;
 
 async function main() {
   const args = process.argv.slice(2);
@@ -17,7 +17,7 @@ async function main() {
     process.exit(1);
   }
 
-  if (platform() === 'darwin') {
+  if (os === 'darwin') {
     const { cloneFileSync } = await import('./rclonefile');
     cloneFileSync(source, destination);
   } else {

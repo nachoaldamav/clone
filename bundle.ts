@@ -1,5 +1,4 @@
 import * as esbuild from 'esbuild';
-import { platform } from 'process';
 
 esbuild.build({
   entryPoints: ['src/clone.ts'],
