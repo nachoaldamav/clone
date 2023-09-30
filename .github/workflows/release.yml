@@ -31,16 +31,7 @@ jobs:
     - name: Run bundle
       run: pnpm run bundle
 
-    - name: Check if Release Exists
-      id: check_release
-      run: |
-        RELEASE_ID=$(gh release view ${{ github.ref }} --json id -q '.id' || echo "")
-        echo "RELEASE_ID=${RELEASE_ID}" >> $GITHUB_ENV
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Create Release if it does not exist
-      if: env.RELEASE_ID == ''
+    - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       with:
@@ -48,6 +39,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+        allowUpdates: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
