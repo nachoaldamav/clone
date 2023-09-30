@@ -26,9 +26,6 @@ jobs:
       id: get_upload_url
       run: |
         UPLOAD_URL=$(gh release view $(basename ${{ github.ref }}) --json uploadUrl -q '.uploadUrl')
-        echo "upload_url: $UPLOAD_URL"
-        echo "UPLOAD_URL=$UPLOAD_URL" >> $GITHUB_ENV
-        echo "upload_url=$UPLOAD_URL" >> $GITHUB_ENV
         echo "::set-output name=upload_url::$UPLOAD_URL"
       env:
         GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
@@ -54,7 +51,7 @@ jobs:
       run: npm install -g pnpm
 
     - name: Install dependencies with pnpm
-      run: npm_config_target_arch=${{ matrix.arch }} npm_config_target_arch=${{ matrix.os }} pnpm install
+      run: npm_config_target_arch=${{ matrix.arch }} npm_config_target_platform=${{ matrix.os }} pnpm install
 
     - name: Run bundle
       run: pnpm run bundle
@@ -66,8 +63,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ needs.prepare-release.outputs.upload_url }}
-        asset_path: ./${{ matrix.os }}-${{ matrix.arch }}/bundle
-        asset_name: clone-${{ matrix.os }}-${{ matrix.arch }}
+        asset_path: ./${{ matrix.os }}-${{ matrix.arch }}/bundle${{ matrix.os == 'win' && '.exe' || '' }}
+        asset_name: clone-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.os == 'win' && '.exe' || '' }}
         asset_content_type: application/octet-stream
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
