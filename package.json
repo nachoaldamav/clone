@@ -1,6 +1,6 @@
 {
   "name": "clone",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Demo of cloning files in different platforms",
   "main": "dist/bundle.js",
   "bin": {

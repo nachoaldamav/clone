@@ -36,6 +36,8 @@ jobs:
       run: |
         RELEASE_ID=$(gh release view ${{ github.ref }} --json id -q '.id' || echo "")
         echo "RELEASE_ID=${RELEASE_ID}" >> $GITHUB_ENV
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release if it does not exist
       if: env.RELEASE_ID == ''
