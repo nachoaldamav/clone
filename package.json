@@ -1,0 +1,36 @@
+{
+  "name": "clone",
+  "version": "0.0.1",
+  "description": "Demo of cloning files in different platforms",
+  "main": "dist/bundle.js",
+  "bin": {
+    "clone": "dist/bundle.js"
+  },
+  "scripts": {
+    "bundle": "tsx bundle.ts",
+    "build:win64": "pkg dist/bundle.js --target node18-win-x64 --out-path win-x64",
+    "build:win32": "pkg dist/bundle.js --target node18-win-x86 --out-path win-x86",
+    "build:linux64": "pkg dist/bundle.js --target node18-linux-x64 --out-path linux-x64",
+    "build:linux32": "pkg dist/bundle.js --target node18-linux-arm64 --out-path linux-arm64",
+    "build:mac64": "pkg dist/bundle.js --target node18-macos-x64 --out-path mac-x64",
+    "build:macarm64": "pkg dist/bundle.js --target node18-macos-arm64 --out-path mac-arm64"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rclonefile": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "esbuild": "^0.19.4",
+    "pkg": "^5.8.1",
+    "tsx": "^3.13.0",
+    "typescript": "^5.2.2"
+  },
+  "pkg": {
+    "assets": [
+      "dist/*.node"
+    ]
+  }
+}

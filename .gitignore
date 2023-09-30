@@ -1,0 +1,11 @@
+node_modules
+dist
+
+# bundled binaries or executables
+win-x64
+win-x86
+linux-x64
+linux-arm64
+mac-x64
+mac-arm64
+
