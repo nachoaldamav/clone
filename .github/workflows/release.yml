@@ -40,19 +40,23 @@ jobs:
     - name: Check if release exists and get upload URL
       id: check_release
       run: |
-        gh release view ${{ github.ref }} > /dev/null 2>&1
-        if [ $? -eq 0 ]; then
+        set -e
+        set -x
+        echo "Checking if release exists..."
+        gh release view ${{ github.ref }} > /dev/null 2>&1 || EXISTS=$?
+        if [ "$EXISTS" == "0" ]; then
           echo "Release exists. Fetching upload URL."
-          UPLOAD_URL=$(gh release view ${{ github.ref }} --json uploadUrl -q '.uploadUrl')
+          UPLOAD_URL=$(gh release view ${{ github.ref }} --json uploadUrl -q '.uploadUrl') || exit 1
         else
           echo "Creating a new release."
           gh release create ${{ github.ref }} ./$BUILD_TARGET-${{ matrix.arch }}/bundle \
-          --title "Release ${{ github.ref }}" --notes "Release notes for ${{ github.ref }}"
-          UPLOAD_URL=$(gh release view ${{ github.ref }} --json uploadUrl -q '.uploadUrl')
+          --title "Release ${{ github.ref }}" --notes "Release notes for ${{ github.ref }}" || exit 1
+          UPLOAD_URL=$(gh release view ${{ github.ref }} --json uploadUrl -q '.uploadUrl') || exit 1
         fi
         echo "UPLOAD_URL=${UPLOAD_URL}" >> $GITHUB_ENV
       env:
         GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+    
 
     - name: Upload release asset
       if: env.UPLOAD_URL != ''
