@@ -134,3 +134,5 @@ jobs:
         asset_path: ./win-${{ matrix.arch }}/bundle.exe
         asset_name: clone-win-${{ matrix.arch }}.exe
         asset_content_type: application/octet-stream
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
