@@ -37,10 +37,7 @@ jobs:
           ./$BUILD_TARGET-${{ matrix.arch }}/bundle \
           --title "Release ${{ github.ref }}" \
           --repo ${{ github.repository }} \
-          --notes "Release notes for ${{ github.ref }}" || \
-        gh release upload ${{ github.ref }} \
-          ./$BUILD_TARGET-${{ matrix.arch }}/bundle \
-          --repo ${{ github.repository }}
+          --notes "Release notes for ${{ github.ref }}"
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
